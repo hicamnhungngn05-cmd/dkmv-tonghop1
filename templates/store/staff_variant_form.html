@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+  <div class="container" style="max-width: 600px;">
+
+    <h3 class="mb-4">{{ title }} — {{ product.product_name }}</h3>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <!-- Color -->
+      <div class="form-group mb-3">
+        <label>Màu sắc (Color)</label>
+        {{ form.color }}
+        {% if form.color.errors %}
+          <div class="text-danger small">{{ form.color.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Size -->
+      <div class="form-group mb-3">
+        <label>Kích thước (Size)</label>
+        {{ form.size }}
+        {% if form.size.errors %}
+          <div class="text-danger small">{{ form.size.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Stock -->
+      <div class="form-group mb-3">
+        <label>Số lượng tồn kho (Stock)</label>
+        {{ form.stock }}
+        {% if form.stock.errors %}
+          <div class="text-danger small">{{ form.stock.errors|striptags }}</div>
+        {% endif %}
+      </div>
+
+      <button class="btn btn-primary">Lưu</button>
+      <a href="{% url 'staff_variant_by_product' product.id %}" class="btn btn-secondary">Huỷ</a>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+  <div class="container">
+
+    <h3 class="mb-4">Combo biến thể của: <b>{{ product.product_name }}</b></h3>
+
+    <!-- Nút thêm combo -->
+    <a href="{% url 'staff_variant_create' product.id %}" class="btn btn-primary mb-4">
+      + Thêm combo (Color + Size)
+    </a>
+
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>#</th>
+          <th>Màu (Color)</th>
+          <th>Size</th>
+          <th>Stock</th>
+          <th width="150">Hành động</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for v in combos %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ v.color }}</td>
+          <td>{{ v.size }}</td>
+          <td>{{ v.stock }}</td>
+
+          <td>
+            <a href="{% url 'staff_variant_update' v.id %}"
+               class="btn btn-sm btn-outline-info">Sửa</a>
+
+            <a href="{% url 'staff_variant_delete' v.id %}"
+               onclick="return confirm('Xoá combo này?');"
+               class="btn btn-sm btn-outline-danger">Xoá</a>
+          </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted">
+            Chưa có combo nào được tạo.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{% url 'staff_product_list' %}" class="btn btn-secondary mt-3">Quay lại danh sách sản phẩm</a>
+
+  </div>
+</section>
+
+{% endblock %}

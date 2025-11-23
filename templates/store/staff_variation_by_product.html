@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+  <div class="container">
+
+    <h3>Biến thể của: <b>{{ product.product_name }}</b></h3>
+
+    <a href="{% url 'staff_variation_create' product.id %}" class="btn btn-primary mb-4">
+      + Thêm biến thể
+    </a>
+
+    <!-- ========================== COLOR TABLE ========================== -->
+    <h4 class="mt-4">Màu sắc (Color)</h4>
+    <table class="table table-bordered mb-5">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Giá trị</th>
+          <th>Kích hoạt</th>
+          <th width="150">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in colors %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ v.variation_value }}</td>
+          <td>
+            {% if v.is_active %}
+              <span class="badge badge-success">✔</span>
+            {% else %}
+              <span class="badge badge-secondary">✘</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'staff_variation_update' v.id %}" class="btn btn-sm btn-outline-info">Sửa</a>
+            <a href="{% url 'staff_variation_delete' v.id %}"
+               class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Xoá biến thể này?');">Xoá</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-center">Chưa có biến thể màu.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    <!-- ========================== SIZE TABLE ========================== -->
+    <h4 class="mt-4">Kích thước (Size)</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Giá trị</th>
+          <th>Kích hoạt</th>
+          <th width="150">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in sizes %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ v.variation_value }}</td>
+          <td>
+            {% if v.is_active %}
+              <span class="badge badge-success">✔</span>
+            {% else %}
+              <span class="badge badge-secondary">✘</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'staff_variation_update' v.id %}" class="btn btn-sm btn-outline-info">Sửa</a>
+            <a href="{% url 'staff_variation_delete' v.id %}"
+               class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Xoá biến thể này?');">Xoá</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-center">Chưa có biến thể size.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</section>
+
+{% endblock %}

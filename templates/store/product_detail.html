@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+<div class="container">
+
+<div class="card">
+    <div class="row no-gutters">
+        <!-- IMAGE -->
+        <aside class="col-md-6">
+            <article class="gallery-wrap">
+                <div class="img-big-wrap">
+                    <a href="#"><img src="{{ single_product.images.url }}"></a>
+                </div>
+            </article>
+        </aside>
+
+        <!-- PRODUCT INFO -->
+        <main class="col-md-6 border-left">
+            <form action="{% url 'add_cart' single_product.id %}" method="POST">
+                {% csrf_token %}
+
+                <article class="content-body">
+                    <h2 class="title">{{ single_product.product_name }}</h2>
+
+                    <div class="mb-3">
+                        <var class="price h4">{{ single_product.price }}đ</var>
+                    </div>
+
+                    <p>{{ single_product.description }}</p>
+                    <hr>
+
+                    <!-- ================= COLOR ================= -->
+                    <div class="row mb-3">
+                        <div class="item-option-select w-100">
+                            <h6>Select Color</h6>
+
+                            <select name="color" class="form-control" required>
+                                <option value="" disabled selected>Color</option>
+
+                                {% for c in colors %}
+                                    <option value="{{ c|lower }}">{{ c|capfirst }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                       {% if single_product.stock <= 0 %}
+                        <h5 class ="text-danger"> Out of Stock </h5>
+                       {% elif not user.is_authenticated or user.role == 'customer' %}
+                         <button type="submit" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </button>
+                       {% elif user.role == 'admin' or user.role == 'staff' %}
+                         <div class="alert alert-info mt-2">Admin/Staff không thể thêm vào giỏ hàng.</div>
+                       {% endif %}
+
+
+                    <!-- ================= SIZE ================= -->
+                    <div class="row mb-3">
+                        <div class="item-option-select w-100">
+                            <h6>Select Size</h6>
+
+                            <select name="size" class="form-control" required>
+                                <option value="" disabled selected>Size</option>
+
+                                {% for s in sizes %}
+                                    <option value="{{ s|lower }}">{{ s|upper }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- ================= STOCK CHECK ================= -->
+                    {% if total_stock == 0 %}
+                        <h5 class="text-danger">Out of Stock</h5>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary">
+                            <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    {% endif %}
+                </article>
+
+            </form>
+        </main>
+    </div>
+</div>
+
+<br>
+
+<!-- ================= REVIEWS ================= -->
+<div class="row">
+    <div class="col-md-9">
+        <header class="section-heading">
+            <h3>Customer Reviews</h3>
+        </header>
+
+        <article class="box mb-3">
+            <div class="icontext w-100">
+                <img src="{% static './images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">
+                <div class="text">
+                    <span class="date text-muted float-md-right">24.04.2020</span>
+                    <h6 class="mb-1">Mike John</h6>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <p>Dummy comment ...</p>
+            </div>
+        </article>
+    </div>
+</div>
+
+</div>
+</section>
+
+{% endblock %}

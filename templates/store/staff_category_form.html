@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% if category %}Sửa danh mục{% else %}Thêm danh mục{% endif %}</h2>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <label>Tên danh mục:</label>
+        <input type="text" name="name" class="form-control mb-3"
+               value="{{ category.category_name|default:'' }}" required>
+
+        <label>Slug:</label>
+        <input type="text" name="slug" class="form-control mb-3"
+               value="{{ category.slug|default:'' }}" required>
+
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a href="{% url 'staff_category_list' %}" class="btn btn-secondary">Huỷ</a>
+    </form>
+
+</div>
+{% endblock %}

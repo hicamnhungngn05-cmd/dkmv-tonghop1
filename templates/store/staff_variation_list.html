@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h3>Danh sách biến thể</h3>
+
+    <a class="btn btn-primary mb-3" href="{% url 'staff_variation_create' %}">+ Thêm biến thể</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sản phẩm</th>
+                <th>Loại</th>
+                <th>Giá trị</th>
+                <th>Active</th>
+                <th width="150">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for v in variations %}
+            <tr>
+                <td>{{ v.id }}</td>
+                <td>{{ v.product }}</td>
+                <td>{{ v.variation_category }}</td>
+                <td>{{ v.variation_value }}</td>
+                <td>{{ v.is_active }}</td>
+                <td>
+                    <a href="{% url 'staff_variation_update' v.id %}" class="btn btn-sm btn-info">Sửa</a>
+                    <a href="{% url 'staff_variation_delete' v.id %}" class="btn btn-sm btn-danger">Xoá</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
