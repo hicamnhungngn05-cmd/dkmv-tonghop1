@@ -10,6 +10,7 @@ from orders.models import Order, OrderProduct
 
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
+from coupons.models import Coupon, CouponUsage
 
 
 #VERIFICATION EMAIL
@@ -595,5 +596,52 @@ def delete_customer(request, customer_id):
 
 
    return redirect('customer_detail', customer_id=customer_id)
+
+@login_required(login_url='login')
+def my_coupons_view(request):
+   user = request.user
+
+
+   # Lấy tất cả coupon, để model tự quyết định trạng thái (active / upcoming / expired / inactive)
+   all_coupons = Coupon.objects.all().order_by('-valid_to')
+
+
+   visible_coupons = []
+
+
+   for coupon in all_coupons:
+       status = coupon.get_status()  # 'active', 'upcoming', 'expired', 'inactive'
+
+
+       # ❌ Bỏ qua những mã đã hết hạn hoặc đang tắt
+       if status in ("expired", "inactive"):
+           continue
+
+
+       # ✅ Giữ lại cả "active" và "upcoming"
+       # Kiểm tra giới hạn tổng số lần sử dụng (toàn hệ thống)
+       if coupon.max_usage_count > 0:
+           total_used = CouponUsage.objects.filter(coupon=coupon).count()
+           if total_used >= coupon.max_usage_count:
+               continue  # đã dùng hết lượt phát hành
+
+
+       # Kiểm tra giới hạn theo từng khách hàng
+       if coupon.max_usage_per_customer > 0:
+           user_used = CouponUsage.objects.filter(
+               coupon=coupon,
+               user=user,
+           ).count()
+           if user_used >= coupon.max_usage_per_customer:
+               continue  # user này đã dùng hết lượt cho mã này
+
+       visible_coupons.append(coupon)
+
+   visible_coupons.sort(key=lambda c: c.valid_to)
+
+   context = {
+       "coupons": visible_coupons,
+   }
+   return render(request, "accounts/my_coupons.html", context)
 
 

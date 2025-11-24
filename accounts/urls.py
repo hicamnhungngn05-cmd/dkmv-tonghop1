@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('register/',views.register, name = 'register'),
     path('login/',views.login, name = 'login'),
@@ -27,6 +28,6 @@ urlpatterns = [
    path('admin/customer/<int:customer_id>/', views.customer_detail, name='customer_detail'),
    path('admin/customer/<int:customer_id>/toggle-status/', views.toggle_customer_status, name='toggle_customer_status'),
    path('admin/customer/<int:customer_id>/delete/', views.delete_customer, name='delete_customer'),
-   path('my_coupons/', views.my_orders, name='my_coupons'),
+   path('my_coupons/', views.my_coupons_view, name='my_coupons'),
 
 ]
