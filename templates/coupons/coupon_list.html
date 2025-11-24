@@ -212,14 +212,14 @@
                                        </td>
                                        <td class="text-center pr-4">
                                            <div class="btn-group">
-                                               <a href="{% url 'management:coupon_detail' pk=coupon.pk %}"
+                                               <a href="{% url 'coupons:coupon_detail' pk=coupon.pk %}"
                                                   class="btn btn-sm btn-light text-info shadow-sm mx-1"
                                                   style="border-radius: 8px;"
                                                   title="Edit">
                                                    <i class="fa fa-edit"></i>
                                                </a>
 
-                                               <form method="POST" action="{% url 'management:coupon_delete' pk=coupon.pk %}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete coupon {{ coupon.code }}?');">
+                                               <form method="POST" action="{% url 'coupons:coupon_delete' pk=coupon.pk %}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete coupon {{ coupon.code }}?');">
                                                    {% csrf_token %}
                                                    <button type="submit" class="btn btn-sm btn-light text-danger shadow-sm mx-1" style="border-radius: 8px;" title="Delete">
                                                        <i class="fa fa-trash"></i>

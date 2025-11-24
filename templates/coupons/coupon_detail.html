@@ -24,7 +24,7 @@
                            <i class="fa fa-ticket"></i>
                            Thông tin mã: {{ coupon.code }}
                        </strong>
-                       <a href="{% url 'management:coupon_list' %}" class="btn btn-sm btn-light">
+                       <a href="{% url 'coupons:coupon_list' %}" class="btn btn-sm btn-light">
                            &larr; Quay lại danh sách
                        </a>
                    </header>
@@ -124,7 +124,7 @@
                    <footer class="card-footer d-flex justify-content-between">
                        <div>
                            <form method="post"
-                                 action="{% url 'management:coupon_delete' pk=coupon.pk %}"
+                                 action="{% url 'coupons:coupon_delete' pk=coupon.pk %}"
                                  class="d-inline"
                                  onsubmit="return confirm('Bạn có chắc chắn muốn xóa mã {{ coupon.code }}?');">
                                {% csrf_token %}
@@ -136,7 +136,7 @@
 
 
                        <div>
-                           <a href="{% url 'management:coupon_update' pk=coupon.pk %}"
+                           <a href="{% url 'coupons:coupon_update' pk=coupon.pk %}"
                               class="btn btn-primary">
                                <i class="fa fa-edit"></i> Chỉnh sửa
                            </a>
