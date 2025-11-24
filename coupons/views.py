@@ -254,7 +254,7 @@ def coupon_create(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tạo mã giảm giá mới thành công!')
-            return redirect('management:coupon_list')
+            return redirect('coupons:coupon_list')
         else:
             # Nếu form không hợp lệ, messages.error sẽ hiển thị lỗi form
             messages.error(request, 'Đã có lỗi xảy ra. Vui lòng kiểm tra lại dữ liệu.')
@@ -273,14 +273,14 @@ def coupon_update(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f'Cập nhật mã giảm giá "{coupon.code}" thành công!')
-            return redirect('management:coupon_list')
+            return redirect('coupons:coupon_list')
         else:
             messages.error(request, 'Đã có lỗi xảy ra. Vui lòng kiểm tra lại dữ liệu.')
     else:
         form = CouponAdminForm(instance=coupon)
 
     context = {'form': form, 'title': f'Chỉnh sửa Mã Giảm Giá: {coupon.code}'}
-    return render(request, 'management/coupons/coupon_form.html', context)
+    return render(request, 'coupons/coupon_form.html', context)
 
 @staff_member_required
 def coupon_delete(request, pk):
@@ -291,7 +291,7 @@ def coupon_delete(request, pk):
         messages.success(request, f'Đã xóa mã giảm giá "{coupon.code}" thành công.')
 
     # Chuyển hướng về trang list sau khi xóa hoặc nếu không phải POST
-    return redirect('management:coupon_list')
+    return redirect('coupons:coupon_list')
 
 @staff_member_required
 def coupon_detail(request, pk):
@@ -325,5 +325,5 @@ def coupon_detail(request, pk):
         "status_label": status_label,
         "remain": remain,
     }
-    return render(request, "management/coupons/coupon_detail.html", context)
+    return render(request, "coupons/coupon_detail.html", context)
 
